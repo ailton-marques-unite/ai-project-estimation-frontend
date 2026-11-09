@@ -13,7 +13,9 @@ setup("autentica e salva a sessão", async ({ browser }) => {
     await context.close();
     if (valid) return;
   }
+  // Falha antes de tentar o login: uma tentativa sem credencial ainda conta no limite do SSO.
   expect(EMAIL, "defina E2E_EMAIL e E2E_PASSWORD").not.toBe("");
+  expect(PASSWORD, "defina E2E_EMAIL e E2E_PASSWORD").not.toBe("");
   const context = await browser.newContext();
   const page = await context.newPage();
   await login(page);
