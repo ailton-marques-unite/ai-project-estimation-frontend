@@ -5,7 +5,10 @@ const percent1 = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1, mini
 const dateTime = new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" });
 
 export function fmtHours(value: number | null | undefined): string {
-  return value == null ? "—" : `${number1.format(value)} h`;
+  if (value == null) return "—";
+  // Arredonda antes de formatar: -0 e valores como -0,04 viram "0 h", não "-0 h".
+  const rounded = Math.round(value * 10) / 10;
+  return `${number1.format(rounded === 0 ? 0 : rounded)} h`;
 }
 
 export function fmtMoney(value: number | null | undefined, currency = "BRL"): string {
